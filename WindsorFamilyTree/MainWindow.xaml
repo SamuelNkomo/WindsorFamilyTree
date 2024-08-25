@@ -1,0 +1,107 @@
+﻿<Window x:Class="WindsorFamilyTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WindsorFamilyTree"
+        mc:Ignorable="d"
+        Title="House of Windsor Family Tree" Height="450" Width="800"
+        Background="{StaticResource PrimaryBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- TreeView for Family Tree -->
+        <TreeView Name="FamilyTreeView" Grid.Column="0" Margin="10"
+                  SelectedItemChanged="FamilyTreeView_SelectedItemChanged">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Member.Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <!-- Right Panel for Details and Adding Members -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Add Family Member" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+            <!-- Name TextBox with Placeholder -->
+            <Grid>
+                <TextBox Name="NameTextBox" Margin="0,0,0,10"/>
+                <TextBlock Text="Name" Foreground="Gray" Margin="10,2,0,0" 
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=NameTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=NameTextBox}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value=" ">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <!-- DatePicker for DOB -->
+            <DatePicker Name="DobDatePicker" Margin="0,0,0,10"/>
+
+            <!-- CheckBox for IsAlive -->
+            <CheckBox Name="IsAliveCheckBox" Content="Is Alive" Margin="0,0,0,10"/>
+
+            <!-- Add Member Button -->
+            <Button Name="AddMemberButton" Content="Add Member" Click="AddMemberButton_Click" Margin="0,0,0,20"/>
+
+            <TextBlock Text="Search Family Member" FontWeight="Bold" FontSize="16" Margin="0,20,0,10"/>
+
+            <!-- Search TextBox with Placeholder -->
+            <Grid>
+                <TextBox Name="SearchTextBox" Margin="0,0,0,10"/>
+                <TextBlock Text="Enter Name" Foreground="Gray" Margin="10,2,0,0" 
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=SearchTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=SearchTextBox}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value=" ">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <!-- Search Button -->
+            <Button Name="SearchButton" Content="Search" Click="SearchButton_Click" Margin="0,0,0,10"/>
+
+            <!-- Search Result Display -->
+            <TextBlock Name="SearchResultTextBlock" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
